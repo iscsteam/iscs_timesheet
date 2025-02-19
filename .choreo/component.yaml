@@ -1,0 +1,25 @@
+apiVersion: choreo.dev/v1alpha1
+kind: Component
+metadata:
+  name: fastapi-app
+spec:
+  type: service
+  runtime: python
+  implementation:
+    container:
+      build:
+        contextPath: .  # Root directory as build context
+        dockerfilePath: ./Dockerfile  # Path to Dockerfile
+      deploy:
+        environment: production
+        replicas: 2
+  source:
+    repository: https://github.com/my-org/iscs_timesheet
+    branch: main
+  endpoints:
+    - name: api-root
+      path: /
+      method: GET
+    - name: health-check
+      path: /health
+      method: GET
